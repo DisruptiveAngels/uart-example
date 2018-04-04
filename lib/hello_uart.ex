@@ -13,22 +13,22 @@ defmodule HelloUart do
         {:ok, uart} = Nerves.UART.start_link()
         Logger.info "#{inspect uart}"
         _open = Nerves.UART.open(uart, k, uart_opts)
-        Nerves.UART.write(uart, "HOLaS")
+        Nerves.UART.write(uart, "Hello")
         [k, uart]
       end)
     uart_loop(pids)
   end
 
   def uart_loop(pids) do
-    [nom, uart] = pids
+    [name, uart] = pids
     response = Nerves.UART.read(uart,3000)
     case response do
       {:ok, ""} ->
-        Logger.info("nada")
+        Logger.info("timeout")
         uart_loop(pids)
-      {:ok, msn} ->
-        Logger.info("me llego #{msn} de #{nom}" )
-        #Nerves.UART.write(uart,"Hola")
+      {:ok, msg} ->
+        Logger.info("Recieved #{msg} de #{name}" )
+        Nerves.UART.write(uart, "Hello Back")
         uart_loop(pids)
       {:error, _error} -> false
     end
