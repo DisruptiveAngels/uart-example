@@ -19,7 +19,7 @@ defmodule HelloUart do
     uart_loop(pids)
   end
 
-  def uart_loop(pids) do
+  defp uart_loop(pids) do
     [name, uart] = pids
     response = Nerves.UART.read(uart,3000)
     case response do
