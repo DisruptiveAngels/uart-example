@@ -6,7 +6,7 @@ defmodule HelloUart do
   require Logger
 
   def uart_ini do
-    uart_opts = [speed: 9600, active: false, framing: {Nerves.UART.Framing.Line, separator: "\n"}]
+    uart_opts = [speed: 9600, active: false]
     pids =
       Nerves.UART.enumerate() |> Enum.reduce(%{}, fn {k, _v}, _acc ->
         Logger.info "Open #{k}"
